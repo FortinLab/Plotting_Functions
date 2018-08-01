@@ -11,15 +11,15 @@ if nargin == 2
     yLbl = [];
 end
 if strcmp(varargin, 'zroNaN')
-    if sum(isnan(xDta))
-        nanSpt = isnan(xDta);
-        xDta(nanSpt) = 0;
-        yDta(nanSpt) = 0;
-    elseif sum(isnan(yDta))
-        nanSpt = isnan(yDta);
-        yDta(nanSpt) = 0;
-        xDta(nanSpt) = 0;
-    end
+    xNanLog = isnan(xDta);
+    yNanLog = isnan(yDta);
+    xDta(xNanLog | yNanLog) = 0;
+    yDta(xNanLog | yNanLog) = 0;
+elseif strcmp(varargin, 'rmvNaN')
+    xNanLog = isnan(xDta);
+    yNanLog = isnan(yDta);
+    xDta(xNanLog | yNanLog) = [];
+    yDta(xNanLog | yNanLog) = [];
 end
 [r p] = corrcoef(xDta, yDta);
 if sum(strcmp(varargin{1}, 'markerStyle'))>=1
