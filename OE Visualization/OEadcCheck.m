@@ -8,12 +8,12 @@
 [dataH,~,~] = load_open_ephys_data('100_ADC8.continuous');
 
 figure;
-plot(dataA); 
+plot(dataA*1000); 
 hold on; 
-plot(dataB);
-plot(dataC)
-plot(dataD)
-plot(dataE)
-plot(dataF)
-plot(dataG)
-plot(dataH);
+plot(dataB*1000);
+plot(dataC*1000)
+plot(dataD*1000)
+plot(dataE*1000)
+plot(dataF*1000)
+plot(dataG*1000)
+plot(dataH*1000);
