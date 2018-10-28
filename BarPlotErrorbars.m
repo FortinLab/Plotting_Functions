@@ -24,5 +24,5 @@ if sum(cell2mat(cellfun(@(a)strcmp(a, 'XTick'), varargin, 'uniformoutput',0)))>=
 else    
     bar(1:length(dataMeans), dataMeans, 'facecolor', faceColor);
     hold on
-    errorbar(1:length(dataMeans), dataMeans,dataVar, 'linestyle', 'none', 'color', 'black', 'CapSize', 1);
+    errorbar(1:length(dataMeans), dataMeans,dataVar, 'linestyle', 'none', 'color', 'black', 'CapSize', 0);
 end
