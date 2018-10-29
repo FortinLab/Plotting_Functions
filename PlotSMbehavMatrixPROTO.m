@@ -3,3 +3,4 @@ for c = 2:size(behavMatrix,2)-2
     hold on; 
     scatter(find(behavMatrix(:,c)==-1), ones(sum(behavMatrix(:,c)==-1),1)*c, '*');
 end
+set(gca, 'ytick', 2:size(behavMatrix,2), 'yticklabel', behavMatrixColIDs(2:end));
