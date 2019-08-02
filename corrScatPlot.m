@@ -22,11 +22,14 @@ elseif strcmp(varargin, 'rmvNaN')
     yDta(xNanLog | yNanLog) = [];
 end
 [r p] = corrcoef(xDta, yDta);
-if sum(strcmp(varargin{1}, 'markerStyle'))>=1
-    mrkrSpt = find(strcmp(varargin{1}, 'markerStyle'));
-    scatter(xDta, yDta, varargin{1}{mrkrSpt+1});
-else
-    scatter(xDta, yDta);
+scatPlot = scatter(xDta, yDta);
+if sum(strcmp(varargin, 'markerStyle'))>=1
+    mrkrSpt = find(strcmp(varargin, 'markerStyle'));
+    set(scatPlot, 'Marker', varargin{mrkrSpt+1});
+end
+if sum(strcmp(varargin, 'markerColor'))>=1
+    clrSpt = find(strcmp(varargin, 'markerColor'));
+    set(scatPlot, 'MarkerEdgeColor', varargin{clrSpt+1});
 end
 hold on
 eq1 = polyfit(xDta,yDta,1);
@@ -44,12 +47,12 @@ ylabel(yLbl);
 
 rVal = r(2);
 pVal = p(2);
-if strcmp(varargin, 'coordOn')
+if sum(strcmp(varargin, 'coordOn'))==1
     hold on
     line(get(gca, 'xlim'), [0 0], 'linewidth', 0.5, 'linestyle', ':', 'color', 'black')
     line([0 0], get(gca, 'ylim'), 'linewidth', 0.5, 'linestyle', ':', 'color', 'black')
 end
-if strcmp(varargin, 'gridOn')
+if sum(strcmp(varargin, 'gridOn'))==1
     grid on;
 end
 
