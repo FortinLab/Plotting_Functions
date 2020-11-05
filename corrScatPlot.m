@@ -20,8 +20,12 @@ elseif strcmp(varargin, 'rmvNaN')
     yNanLog = isnan(yDta);
     xDta(xNanLog | yNanLog) = [];
     yDta(xNanLog | yNanLog) = [];
+elseif strcmp(varargin, 'rmvZro')
+    zroLog = xDta==0 | yDta==0;
+    xDta(zroLog) = [];
+    yDta(zroLog) = [];
 end
-[r p] = corrcoef(xDta, yDta);
+[r, p] = corr(xDta, yDta, 'rows', 'pairwise');
 scatPlot = scatter(xDta, yDta);
 if sum(strcmp(varargin, 'markerStyle'))>=1
     mrkrSpt = find(strcmp(varargin, 'markerStyle'));
@@ -32,21 +36,23 @@ if sum(strcmp(varargin, 'markerColor'))>=1
     set(scatPlot, 'MarkerEdgeColor', varargin{clrSpt+1});
 end
 hold on
-eq1 = polyfit(xDta,yDta,1);
-vCalc1 = polyval(eq1, xDta);
-plot(xDta, vCalc1, 'red', 'linewidth', 2);
-if p(2)<=0.05
+data = [xDta,yDta];
+data(sum(isnan(data),2)>=1,:) = [];
+eq1 = polyfit(data(:,1),data(:,2),1);
+vCalc1 = polyval(eq1, data(:,1));
+plot(data(:,1), vCalc1, 'red', 'linewidth', 2);
+if p<=0.05
     annotation(gcf, 'textbox', get(gca, 'position'), 'string',...
-     [{['r = ' num2str(r(2))]}; {['p = ' num2str(p(2))]}], 'linestyle', 'none', 'color', 'r');
+     sprintf('r=%.02f; p = %.02f', r, p), 'linestyle', 'none', 'color', 'r');
 else
     annotation(gcf, 'textbox', get(gca, 'position'), 'string',...
-     [{['r = ' num2str(r(2))]}; {['p = ' num2str(p(2))]}], 'linestyle', 'none');
+     sprintf('r=%.02f; p = %.02f', r, p), 'linestyle', 'none');
 end
 xlabel(xLbl);
 ylabel(yLbl);
 
-rVal = r(2);
-pVal = p(2);
+rVal = r;
+pVal = p;
 if sum(strcmp(varargin, 'coordOn'))==1
     hold on
     line(get(gca, 'xlim'), [0 0], 'linewidth', 0.5, 'linestyle', ':', 'color', 'black')
