@@ -23,7 +23,13 @@ elseif strcmp(varargin, 'rmvNaN')
 elseif strcmp(varargin, 'rmvZro')
     zroLog = xDta==0 | yDta==0;
     xDta(zroLog) = [];
-    yDta(zroLog) = [];
+    yDta(zroLog) = [];    
+end
+if strcmp(varargin, 'rmvNaNinf')
+    xNanInfLog = isnan(xDta) | isinf(xDta);
+    yNanInfLog = isnan(yDta) | isinf(yDta);
+    xDta(xNanInfLog | yNanInfLog) = [];
+    yDta(xNanInfLog | yNanInfLog) = [];
 end
 [r, p] = corr(xDta, yDta, 'rows', 'pairwise');
 scatPlot = scatter(xDta, yDta);
